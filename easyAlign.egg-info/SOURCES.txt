@@ -1,0 +1,8 @@
+README.md
+setup.py
+easyAlign/__init__.py
+easyAlign/align.py
+easyAlign.egg-info/PKG-INFO
+easyAlign.egg-info/SOURCES.txt
+easyAlign.egg-info/dependency_links.txt
+easyAlign.egg-info/top_level.txt
