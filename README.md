@@ -37,7 +37,7 @@ converter.compare_keys()
 
 ![](./imgs/compare_key.png)
 
-需要有skip_weights，donot_transpose，torch_to_paddle_keys，special_case_fn（可以没有）,下面是一个具体例子：
+需要有skip_weights，donot_transpose，torch_to_paddle_keys，special_case_fn（可以没有）,下面是一个fairseq和paddle转换transformer权重的例子：
 
 ```python
 ## 1、需要跳过的torch权重
