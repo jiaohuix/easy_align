@@ -57,7 +57,8 @@ class Torch2PaddleConverter():
             for k, v in torch_to_paddle_keys.items():
                 paddle_k = paddle_k.replace(k, v)
             # 特殊key处理
-            paddle_k = special_case_fn(paddle_k)
+            if special_case_fn is not None:
+                paddle_k = special_case_fn(paddle_k)
             print(f"Converting [{i + 1}]: {torch_k} => {paddle_k} | is_transpose {transpose}")
             # 4.存入paddle权重
             self.paddle_weights[paddle_k] = torch_w.cpu().detach().numpy()
