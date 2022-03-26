@@ -18,18 +18,18 @@ class Torch2PaddleConverter():
         torch_len, paddle_len = len(self.torch_keys), len(self.paddle_keys)
         if torch_len > paddle_len:
             for i in range(idx, torch_len):
-                print("-" * 50 + f"[{i + 1}]" + "-" * 50)
+                print("-" * 60 + f"[{i + 1}]" + "-" * 60)
                 torch_k = self.torch_keys[i]
                 torch_w = self.torch_weights[torch_k]
                 msg_torch = f"{torch_k} {list(torch_w.shape)}"
-                print("{0:<50} \t ".format(msg_torch))
+                print("{0:<60} \t ".format(msg_torch))
         elif torch_len < paddle_len:
             for i in range(idx, paddle_len):
-                print("-" * 50 + f"[{i + 1}]" + "-" * 50)
+                print("-" * 60 + f"[{i + 1}]" + "-" * 60)
                 paddle_k = self.paddle_keys[i]
                 paddle_w = self.paddle_weights[paddle_k]
                 msg_paddle = f"{paddle_k} {list(paddle_w.shape)}"
-                print("{0:>50} \t ".format(msg_paddle))
+                print("{0:>60} \t ".format(msg_paddle))
 
     def align_weights(self, skip_weights, donot_transpose, torch_to_paddle_keys, special_case_fn=None):
         '''

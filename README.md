@@ -1,7 +1,7 @@
 # easy_align
 make align torch weights to paddle easy.
 
-## 安装和卸载
+## 1.安装和卸载
 
 ```shell
 git clone https://github.com/MiuGod0126/easy_align
@@ -12,7 +12,7 @@ python setup.py install
 pip uninstall easyAlign
 ```
 
-## 创建转换器
+## 2.创建转换器
 
 ```python
 import torch
@@ -26,32 +26,25 @@ paddle_weights=paddle.load('transformer.pdparams')
 converter=Torch2PaddleConverter(torch_weights,paddle_weights)
 ```
 
-## 写转换规则
+## 3.写转换规则（建议在notebook下完成）
 
 使用compare_keys可以规整的打印torch和paddle的参数，便于写转换规则。
 
 ```python
 # 打印参数
 converter.compare_keys()
-'''
-torch_key and shape:                                                torch_key and shape:
--------------------------------------------[1]-------------------------------------------
-encoder.version [1]                 src_word_embedding.word_embedding.weight [20557, 512]        	
--------------------------------------------[2]-------------------------------------------
-encoder.embed_tokens.weight [24972, 512]   src_pos_embedding.pos_encoder.weight [257,512]
-...
-'''
-
 ```
+
+![](./imgs/compare_key.png)
 
 需要有skip_weights，donot_transpose，torch_to_paddle_keys，special_case_fn（可以没有）。
 
 ```python
-
-## 跳过的权重
+## 1、需要跳过的torch权重
 skip_weights=["encoder.version","decoder.version","encoder.embed_positions._float_tensor","decoder.embed_positions._float_tensor"] 
-donot_transpose=['encoder.embed_tokens.weight','decoder.embed_tokens.weight'] # 不需要转置的weight，如embed
-## 参数名名映射 
+## 2、不需要转置的weight，如embed
+donot_transpose=['encoder.embed_tokens.weight','decoder.embed_tokens.weight'] 
+## 3、参数名名映射 
 torch_to_paddle_keys={"encoder.embed_tokens.weight":"src_word_embedding.word_embedding.weight",
                      "decoder.embed_tokens.weight":"trg_word_embedding.word_embedding.weight",
                      "fc1":"linear1",
@@ -61,7 +54,7 @@ torch_to_paddle_keys={"encoder.embed_tokens.weight":"src_word_embedding.word_emb
                       "encoder_attn.":"cross_attn.", # 注意别把norm的替换掉了
                        "decoder.output_projection.weight":"linear.weight"
                      }
-# 特殊参数名处理
+## 3、特殊参数名处理（当3参数名映射处理不了时设置）
 def special_case_fn(key):
     special_key="final_layer_norm" # 在encoder是norm2 在decoder是norm3
     special_val="norm2" if paddle_k.find("encoder")!=-1 else "norm3"
@@ -69,11 +62,15 @@ def special_case_fn(key):
     return key
 ```
 
-## 转换权重
+## 4.转换权重
 
 ```python
 # 转换权重
 paddle_weights=converter.align_weights(skip_weights,donot_transpose,torch_to_paddle_keys,special_case_fn)
+# 保存权重
 paddle.save(paddle_weights,'model.pdparams')
 ```
 
+
+
+至此，torch权重就能愉快的转为paddle了，第3步较为繁琐，不过一般只要弄清楚 嵌入、输出和模型第一层就行了、希望能帮助大家简化转换的流程。
