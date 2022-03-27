@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: easyAlign
-Version: 0.1
+Version: 0.2
 Summary: align torch weights to paddle
 Home-page: https://github.com/MiuGod0126/easy_align
 Author: 角灰大帝

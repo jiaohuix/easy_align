@@ -37,7 +37,7 @@ converter.compare_keys()
 
 ![](./imgs/compare_key.png)
 
-需要有skip_weights，donot_transpose，torch_to_paddle_keys，special_case_fn（可以没有）。
+需要有skip_weights，donot_transpose，torch_to_paddle_keys，special_case_fn（可以没有）,下面是一个具体例子：
 
 ```python
 ## 1、需要跳过的torch权重
@@ -66,7 +66,10 @@ def special_case_fn(key):
 
 ```python
 # 转换权重
-paddle_weights=converter.align_weights(skip_weights,donot_transpose,torch_to_paddle_keys,special_case_fn)
+paddle_weights=converter.align_weights(skip_weights=skip_weights,
+                        donot_transpose=donot_transpose,
+                        torch_to_paddle_keys=torch_to_paddle_keys,
+                        special_case_fn=special_case_fn)
 # 保存权重
 paddle.save(paddle_weights,'model.pdparams')
 ```

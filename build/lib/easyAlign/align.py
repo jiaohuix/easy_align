@@ -8,7 +8,7 @@ class Torch2PaddleConverter():
     def compare_keys(self):
         ''' print parameters info of torch and paddle clearly.'''
         idx = 0
-        print("{0:<60} \t {0:>60}".format("torch_key and shape:", "paddle_key and shape:"))
+        print("{0:<60} \t {1:>60}".format("torch_key and shape:", "paddle_key and shape:"))
         for (torch_k, torch_w), (paddle_k, paddle_v) in zip(self.torch_weights.items(), self.paddle_weights.items()):
             print("-" * 60 + f"[{idx + 1}]" + "-" * 60)
             msg_torch = f"{torch_k} {list(torch_w.shape)}"
@@ -29,7 +29,7 @@ class Torch2PaddleConverter():
                 paddle_k = self.paddle_keys[i]
                 paddle_w = self.paddle_weights[paddle_k]
                 msg_paddle = f"{paddle_k} {list(paddle_w.shape)}"
-                print("{0:>60} \t ".format(msg_paddle))
+                print("{0:>120} \t ".format(msg_paddle))
 
     def align_weights(self, skip_weights, donot_transpose, torch_to_paddle_keys, special_case_fn=None):
         '''
