@@ -57,7 +57,7 @@ torch_to_paddle_keys={"encoder.embed_tokens.weight":"src_word_embedding.word_emb
 ## 3、特殊参数名处理（当3参数名映射处理不了时设置）
 def special_case_fn(key):
     special_key="final_layer_norm" # 在encoder是norm2 在decoder是norm3
-    special_val="norm2" if paddle_k.find("encoder")!=-1 else "norm3"
+    special_val="norm2" if key.find("encoder")!=-1 else "norm3"
     key=key.replace(special_key,special_val)
     return key
 ```
