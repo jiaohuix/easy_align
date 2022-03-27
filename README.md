@@ -37,8 +37,7 @@ converter.compare_keys()
 
 ![](./imgs/compare_key.png)
 
-需要有skip_weights，donot_transpose，torch_to_paddle_keys，special_case_fn（可以没有）,下面是一个具体例子：
-
+需要有skip_weights，donot_transpose，torch_to_paddle_keys，special_case_fn（可以没有）,下面是一个fairseq和paddle转换transformer权重的例子：
 ```python
 ## 1、需要跳过的torch权重
 skip_weights=["encoder.version","decoder.version","encoder.embed_positions._float_tensor","decoder.embed_positions._float_tensor"] 
@@ -57,7 +56,7 @@ torch_to_paddle_keys={"encoder.embed_tokens.weight":"src_word_embedding.word_emb
 ## 3、特殊参数名处理（当3参数名映射处理不了时设置）
 def special_case_fn(key):
     special_key="final_layer_norm" # 在encoder是norm2 在decoder是norm3
-    special_val="norm2" if paddle_k.find("encoder")!=-1 else "norm3"
+    special_val="norm2" if key.find("encoder")!=-1 else "norm3"
     key=key.replace(special_key,special_val)
     return key
 ```
